@@ -5,45 +5,29 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import time
+import csv, codecs
 
 
-class HousepricePipeline(object):
+# 写入csv pipeline
+class Write2CSVPipeline(object):
+    def __init__(self, filename):
+        self.filename = filename
+
+    @classmethod
+    def from_settings(cls, settings):
+        filename = settings["FILE_SAVED"]
+
+        return cls(filename)
+
     def process_item(self, item, spider):
-        return item
+        csvFile = open(self.filename, "a+", encoding="gbk")
 
+        fieldnames = ['xiaoqu', 'quyu', 'louceng', 'chaoxiang', 'mianji', 'zongjia', 'danjia']
+        data = {key: value for key, value in dict(item).items() if key in fieldnames}
 
-class ErshoufangPipeline(object):
-    def process_item(self, item, spider):
-        today = time.strftime('%Y-%m-%d', time.localtime())
-        filename = today + "NanJingEsf.txt"
-        with open(filename,'a',encoding='utf8') as fp:
-            fp.write(item['quyu'] +' ')
-            fp.write(item['xiaoqu'] + ' ')
-            fp.write(item['huxing'] + ' ')
-            fp.write(item['mianji'] + ' ')
-            fp.write(item['zhuangxiu'] + ' ')
-            fp.write(item['chaoxiang'] + ' ')
-            fp.write(item['louceng'] + ' ')
-            fp.write(item['zongcengshu'] + ' ')
-            fp.write(item['school'] + ' ')
-            fp.write(item['tax'] + ' ')
-            fp.write(item['danjia'] + ' ')
-            fp.write(item['zongjia'] + '\n')
-            time.sleep(1)
-
-        # with open(filename, 'a') as fp:
-        #     fp.write(esf_item['quyu'].encode('utf8') + '\t')
-        #     fp.write(esf_item['xiaoqu'].encode('utf8') + '\t')
-        #     fp.write(esf_item['huxing'].encode('utf8') + '\t')
-        #     fp.write(esf_item['mianji'].encode('utf8') + '\t')
-        #     fp.write(esf_item['zhuangxiu'].encode('utf8') + '\t')
-        #     fp.write(esf_item['chaoxiang'].encode('utf8') + '\t')
-        #     fp.write(esf_item['louceng'].encode('utf8') + '\t')
-        #     fp.write(esf_item['zongcengshu'].encode('utf8') + '\t')
-        #     fp.write(esf_item['school'].encode('utf8') + '\t')
-        #     fp.write(esf_item['tax'].encode('utf8') + '\t')
-        #     fp.write(esf_item['danjia'].encode('utf8') + '\t')
-        #     fp.write(esf_item['zongjia'].encode('utf8') + '\n\n')
-        #     time.sleep(1)
+        dict_writer = csv.DictWriter(csvFile,
+                                     fieldnames)
+        dict_writer.writerow(data)
+        csvFile.close()
         return item
 

@@ -6,6 +6,7 @@ import logging
 from urllib import parse
 from HousePrice.items import EsfItem
 
+
 class EsfSpider(scrapy.Spider):
     name = 'esf'
     allowed_domains = ['http://esf.nanjing.fang.com/']
@@ -14,7 +15,7 @@ class EsfSpider(scrapy.Spider):
     def parse(self, response):
         logging.info("Getted Success!!")
         # 翻页
-        for i in range(1, 101):  # 共有100页 每页30条
+        for i in range(1, 2):  # 共有100页 每页30条
             get_url = "http://esf.nanjing.fang.com/house/i3{}/".format(i)
             logging.info("Getting page-{}".format(i))
             yield scrapy.Request(get_url, callback=self.parse_page, dont_filter=True)
@@ -52,17 +53,17 @@ class EsfSpider(scrapy.Spider):
         else:
             school = "暂无"
 
-        esf_item['zongjia'] = zongjia.strip()
-        esf_item['tax'] = tax.strip()
-        esf_item['huxing'] = huxing.strip()
-        esf_item['mianji'] = mianji.strip()
-        esf_item['danjia'] = danjia.strip()
-        esf_item['chaoxiang'] = chaoxiang.strip()
-        esf_item['louceng'] = louceng.strip()
-        esf_item['zongcengshu'] = zongcengshu.strip()
-        esf_item['zhuangxiu'] = zhuangxiu.strip()
-        esf_item['xiaoqu'] = xiaoqu.strip()
-        esf_item['quyu'] = quyu.strip()
-        esf_item['school'] = school.strip()
+        esf_item['zongjia'] = zongjia.strip()   # 总价
+        esf_item['tax'] = tax.strip()   #
+        esf_item['huxing'] = huxing.strip()  # 户型
+        esf_item['mianji'] = mianji.strip()  # 面积
+        esf_item['danjia'] = danjia.strip()  # 单价
+        esf_item['chaoxiang'] = chaoxiang.strip()  # 朝向
+        esf_item['louceng'] = louceng.strip()  # 楼层
+        esf_item['zongcengshu'] = zongcengshu.strip()  # 总层数
+        esf_item['zhuangxiu'] = zhuangxiu.strip()   # 装修
+        esf_item['xiaoqu'] = xiaoqu.strip()   # 小区
+        esf_item['quyu'] = quyu.strip()   # 区域
+        esf_item['school'] = school.strip()  # 学校
 #       esf_item[parse_time] = parse_time
         yield  esf_item
