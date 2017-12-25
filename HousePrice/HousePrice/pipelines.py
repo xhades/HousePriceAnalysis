@@ -15,20 +15,20 @@ class HousepricePipeline(object):
 class ErshoufangPipeline(object):
     def process_item(self, item, spider):
         today = time.strftime('%Y-%m-%d', time.localtime())
-        filename = today +"南京二手房房价.txt"
+        filename = today + "NanJingEsf.txt"
         with open(filename,'a',encoding='utf8') as fp:
-            fp.write(item['quyu'] +'\t')
-            fp.write(item['xiaoqu'] + '\t')
-            fp.write(item['huxing'] + '\t')
-            fp.write(item['mianji'] + '\t')
-            fp.write(item['zhuangxiu'] + '\t')
-            fp.write(item['chaoxiang'] + '\t')
-            fp.write(item['louceng'] + '\t')
-            fp.write(item['zongcengshu'] + '\t')
-            fp.write(item['school'] + '\t')
-            fp.write(item['tax'] + '\t')
-            fp.write(item['danjia'] + '\t')
-            fp.write(item['zongjia'] + '\n\n')
+            fp.write(item['quyu'] +' ')
+            fp.write(item['xiaoqu'] + ' ')
+            fp.write(item['huxing'] + ' ')
+            fp.write(item['mianji'] + ' ')
+            fp.write(item['zhuangxiu'] + ' ')
+            fp.write(item['chaoxiang'] + ' ')
+            fp.write(item['louceng'] + ' ')
+            fp.write(item['zongcengshu'] + ' ')
+            fp.write(item['school'] + ' ')
+            fp.write(item['tax'] + ' ')
+            fp.write(item['danjia'] + ' ')
+            fp.write(item['zongjia'] + '\n')
             time.sleep(1)
 
         # with open(filename, 'a') as fp:
